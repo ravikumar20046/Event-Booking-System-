@@ -113,6 +113,7 @@ Before you begin, ensure you have the following installed on your system:
 1.  **Start the Backend Server:**
     ```bash
     cd event/backend
+    npm install
     npm start
     ```
     The backend server will start on `http://localhost:5000`.
@@ -120,31 +121,34 @@ Before you begin, ensure you have the following installed on your system:
 2.  **Start the Frontend Development Server:**
     ```bash
     cd event/frontend
+    npm install
     npm start
     ```
     The frontend application will open in your browser, usually at `http://localhost:3000`.
 
 ## Screenshots
 
-*(This section is a placeholder. After successfully setting up and running the project, you should replace this text with screenshots of the key pages of your application. Include screenshots for:)*
 *   *Login Page*
 ![alt text](image.png)
+
 *   *Registration Page*
 ![alt text](image-1.png)
+
 *   *User Dashboard (showing available events and your bookings)
 ![alt text](image-2.png)
 ![alt text](image-3.png)
+
 *   *Event Details/Booking Modal (showing seat selection and Razorpay button)*
 ![alt text](image-4.png)
 ![alt text](image-5.png)
+
 *   *Admin Dashboard (showing event list, create/edit buttons, and status badges)*
 ![alt text](image-6.png)
 ![alt text](image-7.png)
 ![alt text](image-8.png)
 ![alt text](image-9.png)
 ![alt text](image-10.png)
-*   *Any other relevant pages showcasing features.*
-
+![alt text](image-11.png)
 ---
 
 
