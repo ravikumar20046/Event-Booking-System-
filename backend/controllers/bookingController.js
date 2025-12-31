@@ -92,3 +92,30 @@ export const getAllBookings = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+export const deleteBooking = async (req, res) => {
+  try {
+    const booking = await Booking.findById(req.params.id);
+
+    if (!booking) {
+      return res.status(404).json({ msg: 'Booking not found' });
+    }
+
+    // Increment available seats for the event
+    const event = await Event.findById(booking.event);
+    if (event) {
+      event.availableSeats += booking.seatsBooked;
+      await event.save();
+    }
+
+    await Booking.deleteOne({ _id: req.params.id });
+
+    res.json({ msg: 'Booking removed' });
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind === 'ObjectId') {
+      return res.status(404).json({ msg: 'Booking not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+};

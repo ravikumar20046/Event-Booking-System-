@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import { getUserBookings, getAllBookings, createBooking } from '../controllers/bookingController.js';
+import { getUserBookings, getAllBookings, createBooking, deleteBooking } from '../controllers/bookingController.js';
 import { auth, authorizeRoles } from '../middleware/auth.js';
 import { createRazorpayOrder, verifyRazorpayPayment } from '../controllers/razorpayController.js';
 
@@ -28,5 +28,10 @@ router.get('/me', auth, authorizeRoles('USER'), getUserBookings);
 // @desc    Get all bookings (Admin only)
 // @access  Private (Admin only)
 router.get('/admin', auth, authorizeRoles('ADMIN'), getAllBookings);
+
+// @route   DELETE api/bookings/:id
+// @desc    Delete a booking by ID (Admin only)
+// @access  Private (Admin only)
+router.delete('/:id', auth, authorizeRoles('ADMIN'), deleteBooking);
 
 export default router;

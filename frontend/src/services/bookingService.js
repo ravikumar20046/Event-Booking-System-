@@ -27,11 +27,18 @@ const getAllBookings = async (token) => {
   return response.data;
 };
 
+const deleteBooking = async (id, token) => {
+  setAuthToken(token);
+  const response = await axios.delete(API_URL + id);
+  return response.data;
+};
+
 const bookingService = {
   createRazorpayOrder,
   verifyRazorpayPayment,
   getUserBookings,
   getAllBookings,
+  deleteBooking,
 };
 
 export default bookingService;

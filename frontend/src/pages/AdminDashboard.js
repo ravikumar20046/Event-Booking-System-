@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Container, Button, Table, Alert, Badge, Row, Col } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import eventService from '../services/eventService';
-
 const AdminDashboard = () => {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
@@ -23,12 +22,20 @@ const AdminDashboard = () => {
   };
 
   const handleDelete = async (id) => {
+    console.log('Attempting to delete event with ID:', id);
     try {
       const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found. User not authenticated.');
+        setError('You must be logged in to delete events.');
+        return;
+      }
       await eventService.deleteEvent(id, token);
       setMessage('Event deleted successfully');
       fetchEvents();
+      console.log('Event deleted successfully, fetching updated events.');
     } catch (err) {
+      console.error('Error deleting event:', err.response ? err.response.data : err.message);
       setError(err.response.data.msg || 'Failed to delete event');
     }
   };
@@ -85,7 +92,6 @@ const AdminDashboard = () => {
                     variant='info'
                     size='sm'
                     className='me-2'
-                    disabled={event.eventStatus === 'COMPLETED'}
                   >
                     ✏️ Edit
                   </Button>
@@ -94,7 +100,6 @@ const AdminDashboard = () => {
                   variant='danger'
                   size='sm'
                   onClick={() => handleDelete(event._id)}
-                  disabled={event.eventStatus === 'COMPLETED'}
                 >
                   🗑️ Delete
                 </Button>

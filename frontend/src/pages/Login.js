@@ -18,7 +18,7 @@ const Login = ({ setUser }) => {
   const onSubmit = async e => {
     e.preventDefault();
     try {
-      const response = await authService.login({ email, password });
+      await authService.login({ email, password });
       const currentUser = await authService.getUser();
       setUser(currentUser);
       navigate('/dashboard');

@@ -9,8 +9,6 @@ const RazorpayPaymentModal = ({ show, handleClose, eventId, eventPrice, availabl
     const [loading, setLoading] = useState(false);
     const [seatsBooked, setSeatsBooked] = useState(1); // Default to 1 seat
     const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
-
     const loadRazorpayScript = () => {
         const script = document.createElement('script');
         script.src = 'https://checkout.razorpay.com/v1/checkout.js';
@@ -69,7 +67,7 @@ const RazorpayPaymentModal = ({ show, handleClose, eventId, eventPrice, availabl
 
                         if (verifyResponse.msg === 'Payment verified successfully') {
                             // Now create the booking in your backend
-                            const createBookingResponse = await axios.post(
+                            await axios.post(
                                 'http://localhost:5000/api/bookings',
                                 {
                                     eventId,

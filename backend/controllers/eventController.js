@@ -126,23 +126,30 @@ export const updateEvent = async (req, res) => {
 // @desc    Delete an event
 // @access  Private (Admin only)
 export const deleteEvent = async (req, res) => {
+  console.log('DELETE /api/events/:id called for ID:', req.params.id);
   try {
     const event = await Event.findById(req.params.id);
+    console.log('Event found:', event);
 
     if (!event) {
+      console.log('Event not found for ID:', req.params.id);
       return res.status(404).json({ msg: 'Event not found' });
     }
 
-    // Ensure user is organizer or admin
-    if (event.organizer.toString() !== req.user.id && req.user.role !== 'ADMIN') {
+    console.log('User role:', req.user.role, 'Event organizer:', event.organizer.toString());
+    // Allow admin to delete any event, or organizer to delete their own
+    if (req.user.role !== 'ADMIN' && event.organizer.toString() !== req.user.id) {
+      console.log('User not authorized to delete event.');
       return res.status(401).json({ msg: 'User not authorized' });
     }
 
-    await Event.findByIdAndRemove(req.params.id);
+    console.log('Attempting to remove event from database...');
+    await Event.findByIdAndDelete(req.params.id);
+    console.log('Event removed from database.');
 
     res.json({ msg: 'Event removed' });
   } catch (err) {
-    console.error(err.message);
+    console.error('Error in deleteEvent controller:', err.message);
     res.status(500).send('Server Error');
   }
 };

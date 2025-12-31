@@ -26,7 +26,7 @@ const UserDashboard = () => {
     } catch (err) {
       setError(err.response.data.msg || 'Failed to fetch events');
     }
-  }, [eventService]);
+  }, []);
 
   const fetchBookings = useCallback(async () => {
     try {
@@ -36,7 +36,7 @@ const UserDashboard = () => {
     } catch (err) {
       setError(err.response.data.msg || 'Failed to fetch bookings');
     }
-  }, [bookingService]);
+  }, []);
 
   const applyFilters = useCallback(() => {
     let tempEvents = [...events];
@@ -180,13 +180,19 @@ const UserDashboard = () => {
           bookings.map(booking => (
             <Col lg={4} md={6} sm={12} key={booking._id} className='mb-4'>
               <Card className="shadow my-3">
-                <Card.Body>
-                  <Card.Title>{booking.event.name}</Card.Title>
-                  <Card.Text><strong>Date:</strong> {new Date(booking.event.date).toLocaleString()}</Card.Text>
-                  <Card.Text><strong>Location:</strong> {booking.event.location}</Card.Text>
-                  <Card.Text><strong>Price:</strong> ${booking.event.price}</Card.Text>
-                  <Card.Text><strong>Seats Booked:</strong> {booking.seatsBooked}</Card.Text>
-                  <Card.Text><strong>Booking Date:</strong> {new Date(booking.bookingDate).toLocaleString()}</Card.Text>
+                  <Card.Body>
+                    {booking.event ? (
+                      <>
+                        <Card.Title>{booking.event.name}</Card.Title>
+                        <Card.Text><strong>Date:</strong> {new Date(booking.event.date).toLocaleString()}</Card.Text>
+                        <Card.Text><strong>Location:</strong> {booking.event.location}</Card.Text>
+                        <Card.Text><strong>Price:</strong> ${booking.event.price}</Card.Text>
+                      </>
+                    ) : (
+                      <Card.Title>Event Details Not Available</Card.Title>
+                    )}
+                    <Card.Text><strong>Seats Booked:</strong> {booking.seatsBooked}</Card.Text>
+                    <Card.Text><strong>Booking Date:</strong> {new Date(booking.bookingDate).toLocaleString()}</Card.Text>
                 </Card.Body>
               </Card>
             </Col>
